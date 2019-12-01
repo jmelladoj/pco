@@ -34,6 +34,7 @@ Route::get('/valoradas', 'HomeController@valoradas')->name('valoradas');
 Route::get('/ventas', 'HomeController@ventas')->name('ventas'); 
 Route::post('/usuario/calificar', 'UsuarioController@calificar')->name('calificacion_usuario');
 Route::post('/cliente/calificar', 'UsuarioController@calificar_cliente')->name('calificacion_cliente');
+Route::get('/ciudades/usuario', 'CiudadController@index_usuario');
 
 Auth::routes();
 
@@ -49,20 +50,17 @@ Route::post('/private-messages/{user}', 'MessageController@sendPrivateMessage')-
 Route::get('/usuarios-online', 'HomeController@useronline')->name('usuarios-online');
 
 Route::middleware(['request'])->group(function(){
-    Route::get('/usuarios/agencia', function () { 
-        return UserResource::collection(User::where('perfil_url', '!=', null)->where('tipo_usuario', 2)->where('agencia', 1)->where('visible', 1)->orderBy('updated_at', 'DESC')->get());
+    Route::get('/usuarios/agencia/{ciudad}', function ($ciudad){ 
+        return UserResource::collection(User::where('ciudad_id', $ciudad)->where('perfil_url', '!=', null)->where('tipo_usuario', 2)->where('agencia', 1)->where('visible', 1)->orderBy('updated_at', 'DESC')->get());
     });
 
-    Route::get('/usuarios/normal', function () { 
-        return UserResource::collection(User::where('perfil_url', '!=', null)->where('tipo_usuario', 2)->where('agencia', 0)->where('visible', 1)->orderBy('updated_at', 'DESC')->get());
+    Route::get('/usuarios/normal/{ciudad}', function ($ciudad){ 
+        return UserResource::collection(User::where('ciudad_id', $ciudad)->where('perfil_url', '!=', null)->where('tipo_usuario', 2)->where('agencia', 0)->where('visible', 1)->orderBy('updated_at', 'DESC')->get());
     });
 
-    Route::get('/usuarios/agencia', function () { 
-        return UserResource::collection(User::where('perfil_url', '!=', null)->where('tipo_usuario', 2)->where('agencia', 1)->where('visible', 1)->orderBy('updated_at', 'DESC')->get());
-    });
 
-    Route::get('/usuarios/mejor_valoradas', function () { 
-        return UserResource::collection(User::where('perfil_url', '!=', null)->where('tipo_usuario', 2)->where('visible', 1)->orderBy('updated_at', 'DESC')->get());
+    Route::get('/usuarios/mejor_valoradas/{ciudad}', function ($ciudad) { 
+        return UserResource::collection(User::where('ciudad_id', $ciudad)->where('perfil_url', '!=', null)->where('tipo_usuario', 2)->where('visible', 1)->orderBy('updated_at', 'DESC')->get());
     });
 
     Route::get('/usuarios/venta', function () { 
@@ -73,16 +71,29 @@ Route::middleware(['request'])->group(function(){
         return UserResource::collection(User::where('perfil_url', '!=', null)->where('tipo_usuario', 2)->where('visible', 1)->orderBy('updated_at', 'DESC')->get());
     });
 
-    Route::get('/avisos', function () { 
-        return AvisoResource::collection(Aviso::orderBy('updated_at', 'DESC')->limit(15)->get());
+    Route::get('/avisos/{ciudad}', function ($ciudad) { 
+        $avisos = Aviso::orderBy('updated_at', 'DESC')->limit(15)->get();
+
+        $avisos->filter(function ($aviso) use ($ciudad) {
+            return $aviso->usuario->ciudad_id == $ciudad;
+        });
+
+        return AvisoResource::collection($avisos);
     });
 
     Route::get('/publicaciones/pagina', function () { 
         return PublicacionResource::collection(Publicacion::orderBy('updated_at', 'DESC')->limit(16)->get());
     });
 
-    Route::get('/video/estado', function () { 
-        return EstadoResource::collection(Estado::whereDate('created_at', Carbon::today())->orderBy('created_at', 'DESC')->get());
+    Route::get('/video/estado/{ciudad}', function ($ciudad) { 
+
+        $estados = Estado::whereDate('created_at', Carbon::today())->orderBy('created_at', 'DESC')->get();
+
+        $estados->filter(function ($estado) use ($ciudad) {
+            return $estado->usuario->ciudad_id == $ciudad;
+        });
+        
+        return EstadoResource::collection($estados);
     });
 
     Route::get('/valoraciones/usuario/{id}', function ($id) { 
@@ -122,7 +133,6 @@ Route::middleware(['auth', 'request'])->group(function(){
 
     //Rutas de ciudad
     Route::get('/ciudades/administrador', 'CiudadController@index_administrador');
-    Route::get('/ciudades/usuario', 'CiudadController@index_usuario');
     Route::post('/ciudad/crear', 'CiudadController@crear');
     Route::post('/ciudad/actualizar', 'CiudadController@actualizar');
     Route::post('/ciudad/borrar', 'CiudadController@borrar');

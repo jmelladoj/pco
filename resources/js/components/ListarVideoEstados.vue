@@ -30,6 +30,9 @@
 
 <script>
     export default {
+        props: [
+            'ciudad'
+        ],
         data() {
             return {
                 usuarios: [],
@@ -42,7 +45,7 @@
         methods:{
             listarUsuarios (){
                 let me=this;
-                axios.get('/video/estado').then(function (response) {
+                axios.get('/video/estado/'  + this.ciudad).then(function (response) {
                     me.usuarios = response.data.data;
                 })
                 .catch(function (error) {
@@ -110,7 +113,7 @@
         }
 
         .isotope-item {
-            width: 50%;
+            width: 33.33333333%;
         }
 
         .perfil-imagen {
@@ -127,6 +130,26 @@
             overflow: hidden;
             margin: 2px;
         }
+
+        #agencia .p-link, #valoradas .p-link, #independientes .p-link {
+            font-size: 13px;
+        }
+        .isotope-item .vertical-item.content-absolute .item-content {
+            padding: 15px 0px;
+        }
+        #agencia .isotope-item label, #valoradas .isotope-item label, #independientes .isotope-item label {
+            font-size: 12px;
+            margin-top: 0px !important;
+        }
+        .isotope-item hr {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .gorizontal_padding {
+            padding-right: 1px;
+            padding-left: 1px;
+        }
+        
     }
 
     @media (min-width: 768px) {
@@ -147,29 +170,6 @@
             overflow: hidden;
             margin: 2px;
         }
-    }
-    @media (min-width: 992px) {
-        .isotope-item {
-            width: 25%;
-        }
-
-        .models_square .vertical-item.content-absolute .item-content {
-            margin-top: -30px;
-            margin-left: 10px;
-            margin-right: 10px;
-        }
-
-        .perfil-imagen {
-            width: 100%;
-            height: 400px;
-            padding-bottom: 20px;
-            border-radius: 1em;
-        }
-
-        .item-media {
-            margin: 10px;
-        }
-
     }
 
 </style>

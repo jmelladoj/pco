@@ -40,6 +40,9 @@
 
 <script>
     export default {
+        props: [
+            'ciudad'
+        ],
         data() {
             return {
                 avisos: []
@@ -48,7 +51,7 @@
         methods:{
             listarAvisos (){
                 let me=this;
-                axios.get('/avisos').then(function (response) {
+                axios.get('/avisos/'  + this.ciudad).then(function (response) {
                     me.avisos = response.data.data;
                 })
                 .catch(function (error) {

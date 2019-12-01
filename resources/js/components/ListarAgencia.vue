@@ -50,6 +50,9 @@
 
 <script>
     export default {
+        props: [
+            'ciudad'
+        ],
         data() {
             return {
                 usuarios: []
@@ -58,7 +61,7 @@
         methods:{
             listarUsuarios (){
                 let me=this;
-                axios.get('/usuarios/agencia').then(function (response) {
+                axios.get('/usuarios/agencia/'  + this.ciudad).then(function (response) {
                     me.usuarios = response.data.data;
                 })
                 .catch(function (error) {

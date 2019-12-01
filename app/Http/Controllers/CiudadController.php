@@ -18,9 +18,7 @@ class CiudadController extends Controller
         ];
     }
 
-    public function index_usuario(Request $request){
-        if (!$request->ajax() || \Auth()->user()->tipo_usuario != 1) return redirect('/');
-        
+    public function index_usuario(Request $request){       
         $ciudades = Ciudad::orderBy('nombre', 'asc')->get();
 
         return [

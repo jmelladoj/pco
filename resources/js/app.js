@@ -35,9 +35,12 @@ import VueLazyload from 'vue-lazyload';
 import { VueStars } from "vue-stars";
 import StarRating from 'vue-star-rating';
 import Autoscroll from 'vue-autoscroll';
+import VueCamera from '@mrjeffapp/vuejs-camera';
+
 
 Vue.component("vue-stars", VueStars);
 Vue.component('star-rating', StarRating);
+Vue.component('VueCamera', VueCamera);
 Vue.use(Autoscroll);
 
 
@@ -85,6 +88,10 @@ const vertical = {
 const VueUploadComponent = require('vue-upload-component');
 Vue.component('file-upload', VueUploadComponent);
 
+//Componentes Generales (para más de un uso)
+Vue.component('grabar-estado', require('./components/general/GrabarEstado.vue').default);
+
+
 Vue.component('login', require('./components/Login.vue').default);
 Vue.component('usuarios', require('./components/Usuarios.vue').default);
 Vue.component('perfil-usuario', require('./components/Perfil-usuario.vue').default);
@@ -113,6 +120,7 @@ Vue.component('calificacion-cliente', require('./components/CalificacionCliente.
 Vue.component('calificaciones', require('./components/Calificaciones.vue').default);
 Vue.component('Chat', require('./components/Chat.vue').default);
 Vue.component('PrivateChat', require('./components/PrivateChat.vue').default);
+Vue.component('inicio', require('./components/Inicio.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -122,7 +130,8 @@ Vue.component('PrivateChat', require('./components/PrivateChat.vue').default);
 const app = new Vue({
     el: '#app',
     data :{
-        menu : 0
+        menu : 0,
+        ciudad : 0
     },
     created() {
         this.$validator.extend('vertical', vertical);

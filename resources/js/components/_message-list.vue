@@ -46,15 +46,14 @@
 </script>
 
 <style scoped>
-.chat-card{
-  margin-bottom:140px;
-}
-.floating-div{
-    position: fixed;
-}
-.chat-card img {
-    max-width: 300px;
-    max-height: 200px;
-}
-
+    .chat-card{
+    margin-bottom:140px;
+    }
+    .floating-div{
+        position: fixed;
+    }
+    .chat-card img {
+        max-width: 300px;
+        max-height: 200px;
+    }
 </style>
