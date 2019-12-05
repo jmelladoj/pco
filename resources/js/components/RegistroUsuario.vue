@@ -1,6 +1,6 @@
 <template>
     <section id="publicateEscort" class="ds section_padding_70 parallax fondo">
-        <div class="container-fluid">
+        <div class="container-fluid"> 
             <div class="row">
                 <div class="col-xs-offset-2 col-xs-8 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6 text-center">
                     <div class="form-group row alert alert-danger" role="alert" v-show="errors.all().length > 0">
