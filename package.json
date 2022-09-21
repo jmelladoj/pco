@@ -42,6 +42,6 @@
         "vue-star-rating": "^1.6.1",
         "vue-stars": "^1.2.1",
         "vue-upload-component": "^2.8.20",
-        "vuetify": "^2.1.12"
+        "vuetify": "^2.6.10"
     }
 }
